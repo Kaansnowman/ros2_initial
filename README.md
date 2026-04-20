@@ -13,3 +13,6 @@ This project explores simulation of a robotic car and how it handles different s
 
 ### Ros2_fundamentals_example 
 Here is only the basics of seting up a workspace and creating setup files to see that it works.
+
+## Reference 
+This repository is created so far by following the tutorial from automaticaddison at: https://automaticaddison.com/tutorials/ 
