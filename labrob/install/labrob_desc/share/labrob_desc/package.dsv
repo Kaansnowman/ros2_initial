@@ -1,0 +1,5 @@
+source;share/labrob_desc/local_setup.bash
+source;share/labrob_desc/local_setup.dsv
+source;share/labrob_desc/local_setup.ps1
+source;share/labrob_desc/local_setup.sh
+source;share/labrob_desc/local_setup.zsh

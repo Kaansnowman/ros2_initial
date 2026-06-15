@@ -1,0 +1,221 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="pacr">
+  <link name="world" />
+
+  <joint name="base_link_joint" type="fixed">
+    <parent link="world" />
+    <child link="base_link" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find labrob_desc)/meshes/base_link.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find labrob_desc)/meshes/base_link.stl" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="shoulder_joint" type="revolute">
+    <parent link="base_link" />
+    <child link="shoulder" />
+    <origin xyz="0 0 0.057441" rpy="0 0 0" />
+    <axis xyz="0 0 1" />
+    <limit lower="-1.570796327" upper="1.570796327" effort="100" velocity="100" />
+  </joint>
+
+  <link name="shoulder">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find labrob_desc)/meshes/shoulder.dae" />
+      </geometry>
+    </visual>
+  </link>
+
+ <joint name="upper_arm_joint" type="revolute">
+    <parent link="shoulder" />
+    <child link="upper_arm" />
+    <origin xyz="-0.0116 -0.0057 0.06556" rpy="-1.5708 -1.5708 0" /> 
+    <axis xyz="0 0 1" />
+    <limit lower="-1.570796" upper="1.570796" effort="100" velocity="100" />
+  </joint>
+
+  <link name="upper_arm">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find labrob_desc)/meshes/upperarm.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find labrob_desc)/meshes/upperarm.stl" />
+      </geometry>
+    </collision>
+  </link>
+
+ <joint name="lower_arm_joint" type="revolute">
+    <parent link="upper_arm" />
+    <child link="lower_arm" />
+    <origin xyz="0.17 0.08 0.02183" rpy="-3.1416 0 1.5708" /> 
+    <axis xyz="0 0 1" />
+    <limit lower="-1.570796" upper="1.570796" effort="100" velocity="100" />
+  </joint>
+
+  <link name="lower_arm">
+    <visual>
+      <origin xyz="0 0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find labrob_desc)/meshes/lowerarm.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find labrob_desc)/meshes/lowerarm.stl" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="gripper_base_joint" type="fixed">
+    <parent link="lower_arm" />
+    <child link="gripper_base_link" />
+    <origin xyz="0.12408 0 0.01626" rpy="0 1.5708 1.5708" /> </joint>
+
+  <link name="gripper_base_link">
+    </link>
+
+  <joint name="pinion_joint" type="revolute">
+    <parent link="gripper_base_link" />
+    <child link="pinion_gear" />
+    <origin xyz="0 -0.0099 0" rpy="0 1.57 0" />
+    <axis xyz="0 1 0" />
+    <limit lower="-3.14" upper="3.14" effort="10.0" velocity="1.0" />
+  </joint>
+
+  <link name="pinion_gear">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find labrob_desc)/meshes/Spur_gear__18_teeth_.stl" scale="1 1 1" />
+      </geometry>
+      <material name="gear_color">
+        <color rgba="0.0 0.13 0.33 1.0" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.0049 0" rpy="1.57 0 0" />
+      <geometry>
+        <cylinder radius="0.015" length="0.01" /> 
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="right_jaw_joint" type="prismatic">
+    <parent link="gripper_base_link" />
+    <child link="right_jaw" />
+    <origin xyz="0 -0.0049 0" rpy="0 0 0" />
+    <axis xyz="-1 0 0" />
+    <limit lower="-0.05" upper="0.05" effort="10.0" velocity="1.0" />
+    <mimic joint="pinion_joint" multiplier="-0.013493" offset="0" />
+  </joint>
+  
+  <link name="right_jaw">
+    <visual>
+      <origin xyz="0.006 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find labrob_desc)/meshes/Hand.stl" scale="1 1 1" />
+      </geometry>
+      <material name="jaw_color">
+        <color rgba="0.9 0.9 0.9 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0. 0.0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.01 0.04 0.02" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="left_jaw_joint" type="prismatic">
+    <parent link="gripper_base_link" />
+    <child link="left_jaw" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit lower="-0.05" upper="0.05" effort="10.0" velocity="1.0" />
+    <mimic joint="pinion_joint" multiplier="-0.013493" offset="0" />
+  </joint>
+
+  <link name="left_jaw">
+    <visual>
+      <origin xyz="-0.006 0 0" rpy="-3.1415 0 3.1415" />
+      <geometry>
+        <mesh filename="file://$(find labrob_desc)/meshes/Hand.stl" scale="1 1 1" />
+      </geometry>
+      <material name="jaw_color">
+        <color rgba="0.9 0.9 0.9 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0.02 0.01" rpy="0 0 0" />
+      <geometry>
+        <box size="0.01 0.04 0.02" />
+      </geometry>
+    </collision>
+  </link>
+
+  <ros2_control name="pacr_hardware_interface" type="system">
+    <hardware>
+      <plugin>pacr_hardware_interface/PACRHardwareInterface</plugin>
+      <param name="use_fake_hardware">true</param><!-- minimal simulation, input equals output -->
+      <param name="adapter">enx00e04c4b7f50</param><!-- interface name of ethernet usb dongle, standard en0, can be obtained with terminal command 'ifconfig' -->
+    </hardware>
+
+    <joint name="shoulder_joint">
+      <command_interface name="position"><!-- interface for position control -->
+        <param name="min">-1.570796327</param>
+        <param name="max">1.570796327</param>
+        <param name="initial_value">0.0</param>
+      </command_interface>
+      <state_interface name="position" />
+    </joint>
+
+    <joint name="upper_arm_joint">
+      <command_interface name="position">
+        <param name="min">-1.570796</param>
+        <param name="max">1.570796</param>
+        <param name="initial_value">0.0</param>
+      </command_interface>
+      <state_interface name="position" />
+    </joint>
+
+    <joint name="lower_arm_joint">
+      <command_interface name="position">
+        <param name="min">-1.570796</param>
+        <param name="max">1.570796</param>
+        <param name="initial_value">0.0</param>
+      </command_interface>
+      <state_interface name="position" />
+    </joint>
+
+    <joint name="pinion_joint">
+      <command_interface name="position">
+        <param name="min">-3.14</param>
+        <param name="max">3.14</param>
+        <param name="initial_value">0.0</param>
+      </command_interface>
+      <state_interface name="position" />
+    </joint>
+    
+  </ros2_control>
+</robot>
