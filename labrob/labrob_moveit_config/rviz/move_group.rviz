@@ -1,0 +1,95 @@
+Panels:
+  - Class: rviz_common::DisplaysPanel
+    Help Page Title: ""
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Global Options1
+        - /Status1
+        - /RobotModel1
+        - /MotionPlanning1
+      Splitter Ratio: 0.5
+    Tree Height: 557
+  - Class: moveit_ros_visualization::MotionPlanningPanel
+    Name: Motion Planning
+    Structured Data: {}
+
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 1
+      Cell Size: 1
+      Class: rviz_default_plugins::Grid
+      Color: 160; 160; 164
+      Enabled: true
+      Line Style:
+        Line Width: 0.03
+        Value: Lines
+      Name: Grid
+      Normal Cell Count: 0
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Plane: XY
+      Shadow Direction: 0; 0; -1
+      Shadow Texture Size: 2048
+      Value: true
+    - Alpha: 0.6
+      Class: rviz_default_plugins::RobotModel
+      Collision Enabled: false
+      Description File: ""
+description
+      Enabled: true
+      Links:
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links
+      Name: RobotModel
+      Robot Description: robot_description
+      Update Interval: 0
+      Visual Enabled: true
+      Value: true
+    - Class: moveit_ros_visualization::MotionPlanning
+      Enabled: true
+      Move Group Namespace: ""
+      Name: MotionPlanning
+      Plan Request:
+        All Planning Options Enabled: false
+        Can Left Click Manufactured Marker: true
+        Planning Group: arm
+        Query Goal State: true
+        Query Start State: true
+      Planning Scene Topic: /monitored_planning_scene
+      Robot Description: robot_description
+      Scene Geometry:
+        Scene Alpha: 0.9
+        Scene Color: 50; 230; 50
+        Scene Display Mode: Scene Geometry
+      Trajectory Topic: /move_group/display_planned_path
+      Value: true
+  Enabled: true
+  Global Options:
+    Background Color: 48; 48; 48
+    Fixed Frame: world
+    Frame Rate: 30
+  Name: root
+  Tools:
+    - Class: rviz_default_plugins::InteractTool
+      Name: Interact
+    - Class: rviz_default_plugins::MoveCameraTool
+      Name: Move Camera
+  Value: true
+  Views:
+    Current:
+      Class: rviz_default_plugins::OrbitViewController
+      Distance: 1.5
+      Focal Point:
+        X: 0.0
+        Y: 0.0
+        Z: 0.2
+      Name: Current View
+      Pitch: 0.33
+      Yaw: 0.78

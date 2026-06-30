@@ -1,0 +1,30 @@
+# Template for ros2_control configuration
+controller_manager:
+  ros__parameters:
+    update_rate: 100
+    arm_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+    gripper_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+arm_controller:
+  ros__parameters:
+    joints:
+      - shoulder_joint
+      - upper_arm_joint
+      - lower_arm_joint
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+
+gripper_controller:
+  ros__parameters:
+    joints:
+      - pinion_joint
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position

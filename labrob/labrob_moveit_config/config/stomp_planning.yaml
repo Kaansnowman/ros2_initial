@@ -1,0 +1,13 @@
+stomp_planning:
+  arm:
+    optimization:
+      num_timesteps: 40
+      num_iterations: 50
+      num_iterations_after_valid: 0
+      max_rollouts: 10
+      num_rollouts_per_iteration: 5
+      initialization_method: 1 # 1 = LinearInterpolation, 2 = CubicSpline
+      control_cost_weight: 0.0001
+    task_space_release_threshold: 0.001
+    smoothness_cost_weight: 0.1
+    obstacle_cost_weight: 1.0
