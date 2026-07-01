@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
+
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rascl">
 
   <link name="world" />
+  <xacro:include filename="$(find labrob_desc)/urdf/sensors/intel_rgbd.urdf.xacro" />
 
   <joint name="base_link_joint" type="fixed">
     <parent link="world" />
@@ -182,21 +184,21 @@
   </link>
 
 <!-- ================================================================ -->
-
+  
   <ros2_control name="rascl_hardware_interface" type="system">
     <hardware>
       <plugin>mock_components/GenericSystem</plugin>
+      <param name="adapter">enx3c18a0256e51</param>
       <!-- Set to your ethernet adapter name e.g. eth0 or enx00e04c... -->
       <!-- (workstation 5: enx3c18a0256e51) -->
-      <!-- (workstation 8: robot_interface) -->
-      <param name="adapter">enx3c18a0256e51</param>
-      <!-- Per-joint homing methods (CiA402) -->
-      <!-- Method 28: positive direction, home switch (default) -->
-      <!-- Method 35: set current position as home (no movement) -->
+      <!-- (workstation 8: robot_interface) -->      
       <param name="shoulder_joint_homing_method">28</param>
       <param name="upper_arm_joint_homing_method">28</param>
       <param name="lower_arm_joint_homing_method">28</param>
       <param name="pinion_joint_homing_method">37</param>
+      <!-- Per-joint homing methods (CiA402) -->
+      <!-- Method 28: positive direction, home switch (default) -->
+      <!-- Method 35: set current position as home (no movement) -->      
     </hardware>
 
     <!-- Slave 1 — base rotation -->

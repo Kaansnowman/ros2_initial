@@ -8,11 +8,12 @@ from moveit_configs_utils import MoveItConfigsBuilder
 
 def generate_launch_description():
     moveit_config_dir = get_package_share_directory("labrob_moveit_config")
+    sim_time_param = {"use_sim_time": True}
     
     # MoveItConfigsBuilder ile config klasöründeki parametreleri (OMPL, Kinematics vb.) topluyoruz
     moveit_configs = (
         MoveItConfigsBuilder("rascl", package_name="labrob_moveit_config")
-        .robot_description(file_path="config/rascl/rascl.urdf")
+        .robot_description(file_path="config/rascl/rascl.urdf.xacro")
         .robot_description_semantic(file_path="config/rascl/rascl.srdf")
         .trajectory_execution(file_path="config/rascl/moveit_controllers.yaml")
         .robot_description_kinematics(file_path="config/rascl/kinematics.yaml")
@@ -37,6 +38,13 @@ def generate_launch_description():
         parameters=[moveit_configs.robot_description],
     )
 
+    joint_state_publisher = Node(
+        package="joint_state_publisher",
+        executable="joint_state_publisher",
+        name="joint_state_publisher",
+        parameters=[{"source_topics": ["/joint_states"]}] # move_group'un yayınladığı kanalı dinler
+    )
+
     # ros2_control_node (Donanım arayüzünü taşıyan ana sunucu nodu)
     ros2_controllers_path = os.path.join(
         moveit_config_dir, "config", "rascl", "ros2_controllers.yaml"
@@ -48,6 +56,19 @@ def generate_launch_description():
         remappings=[("/controller_manager/robot_description", "/robot_description")],
         output="screen",
     )
+
+    rviz_node = Node(
+            package="rviz2",
+            executable="rviz2",
+            name="rviz2",
+            output="screen",
+            parameters=[
+                moveit_configs.robot_description,
+                moveit_configs.robot_description_semantic,
+                moveit_configs.robot_description_kinematics,
+                moveit_configs.planning_pipelines,
+            ],
+        )
 
     # İSTİSNA: Adamın hazırladığı load_ros2_controllers launch dosyasını buraya dahil ediyoruz
     load_controllers_launch = IncludeLaunchDescription(
@@ -61,6 +82,8 @@ def generate_launch_description():
             robot_state_publisher,
             ros2_control_node,
             move_group_node,
+            joint_state_publisher,
+            rviz_node,
             load_controllers_launch, # Sıralı yükleyici burada devreye giriyor
         ]
     )

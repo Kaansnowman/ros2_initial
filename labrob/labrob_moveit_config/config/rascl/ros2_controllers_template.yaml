@@ -1,7 +1,7 @@
 # Template for ros2_control configuration
 controller_manager:
   ros__parameters:
-    update_rate: 100
+    update_rate: 50
     arm_controller:
       type: joint_trajectory_controller/JointTrajectoryController
     gripper_controller:

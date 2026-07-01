@@ -54,7 +54,7 @@ description
       Value: true
     - Class: moveit_ros_visualization::MotionPlanning
       Enabled: true
-      Move Group Namespace: ""
+      Move Group Namespace: "move_group"
       Name: MotionPlanning
       Plan Request:
         All Planning Options Enabled: false
